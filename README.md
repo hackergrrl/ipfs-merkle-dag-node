@@ -1,7 +1,7 @@
 # ipfs-dag
 
-> Data structures and methods for creating and using [IPFS](https://ipfs.io)
-> [Merkle DAG](https://github.com/jbenet/random-ideas/issues/20).
+> Create and use [IPFS](https://ipfs.io) [Merkle
+> DAGs](https://github.com/jbenet/random-ideas/issues/20)!
 
 ## background
 
