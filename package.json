@@ -1,7 +1,7 @@
 {
   "name": "ipfs-dag",
   "description": "data structures and methods for manipulating IPFS objects",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "repository": {
     "url": "git://github.com/noffle/ipfs-dag.git"
   },
