@@ -27,6 +27,16 @@ exports = module.exports = {
 function Node (data, links) {
   if (!(this instanceof Node)) return new Node(data, links)
 
+  if (typeof data === 'string') {
+    data = new Buffer(data)
+  }
+
+  if (!Buffer.isBuffer(data)) {
+    throw new Error('data must be a Buffer object')
+  }
+
+  links = defined(links, [])
+
   // convert links from Nodes to Links
   if (typeof links === 'object') {
     if (Array.isArray(links)) {
@@ -37,7 +47,7 @@ function Node (data, links) {
       })
     }
   } else {
-    this.links = []
+    throw new Error('links must be an object of name:node mappings or a list of links')
   }
 
   this.data = data
