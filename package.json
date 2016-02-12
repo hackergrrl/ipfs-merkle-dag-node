@@ -1,0 +1,23 @@
+{
+  "name": "ipfs-dag",
+  "description": "data structures and methods for manipulating IPFS objects",
+  "version": "0.0.0",
+  "repository": {
+    "url": "git://github.com/noffle/ipfs-dag.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test/*.js"
+  },
+  "dependencies": {
+    "bs58": "^3.0.0",
+    "defined": "^1.0.0",
+    "multihashing": "^0.2.0",
+    "multiline": "^1.0.2",
+    "protocol-buffers": "^3.1.5",
+    "stable": "^0.1.5"
+  },
+  "devDependencies": {
+    "tape": "*"
+  }
+}
