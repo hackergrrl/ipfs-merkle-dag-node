@@ -5,6 +5,7 @@ var multihashing = require('multihashing')
 var base58 = require('bs58')
 var multiline = require('multiline')
 
+// TODO(noffle): make this into its own module
 var schema = multiline(function() {/*
   message PBLink {
     optional bytes Hash = 1;
@@ -50,11 +51,11 @@ function Node (data, links) {
     throw new Error('links must be an object of name:node mappings or a list of links')
   }
 
-  this.data = data
-  this.encoded = mdagpb.PBNode.encode(toProtoBuf(this))
-  this.hash = multihashing(this.encoded, 'sha2-256')
-  this.size = computeSize(this)
-  this.multihash = base58.encode(this.hash)
+  defineImmutableProperty(this, 'data',       data)
+  defineImmutableProperty(this, 'encoded',    mdagpb.PBNode.encode(toProtoBuf(this)))
+  defineImmutableProperty(this, 'hash',       multihashing(this.encoded, 'sha2-256'))
+  defineImmutableProperty(this, 'size',       computeSize(this))
+  defineImmutableProperty(this, 'multihash',  base58.encode(this.hash))
 
   this.asLink = function (name) {
     return new Link(name, this.size, this.hash)
@@ -127,7 +128,15 @@ function fromProtobuf (data) {
 
 // Link represents a directional connection from one IPFS Merkle DAG Node to another.
 function Link (name, size, hash) {
-  this.name = name
-  this.size = size
-  this.hash = hash
+  defineImmutableProperty(this, 'name', name)
+  defineImmutableProperty(this, 'size', size)
+  defineImmutableProperty(this, 'hash', hash)
+}
+
+function defineImmutableProperty (obj, name, value) {
+  Object.defineProperty(obj, name, {
+    writable: false,
+    enumerable: true,
+    value: value
+  })
 }

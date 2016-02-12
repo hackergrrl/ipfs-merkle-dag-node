@@ -9,6 +9,24 @@ test('create a node', function (t) {
   t.equal(dagN.size, dagN.encoded.length)
   t.equal(dagN.multihash, 'Qmd7xRhW5f29QuBFtqu3oSD27iVy35NRB91XFjmKFhtgMr')
   t.equal(dagN.links.length, 0)
+
+  t.end()
+})
+
+test('node immutability', function (t) {
+  var dagN = new dag.Node(new Buffer('some data'))
+
+  dagN.data = 999
+  t.notEqual(dagN.data, 999)
+  dagN.encoded = 999
+  t.notEqual(dagN.encoded, 999)
+  dagN.hash = 999
+  t.notEqual(dagN.hash, 999)
+  dagN.size = 999
+  t.notEqual(dagN.size, 999)
+  dagN.multihash = 999
+  t.notEqual(dagN.multihash, 999)
+
   t.end()
 })
 
@@ -29,6 +47,21 @@ test('re-encode equivalency', function (t) {
   t.deepEqual(dagN.hash, reencodedNode.hash)
   t.deepEqual(dagN.size, reencodedNode.size)
   t.deepEqual(dagN.multihash, reencodedNode.multihash)
+  t.end()
+})
+
+test('link immutability', function (t) {
+  var node1 = new dag.Node('hello')
+
+  var link = node1.asLink('prev')
+
+  link.name = 999
+  t.equal(link.name, 'prev')
+  link.size = 999
+  t.equal(link.size, 7)
+  link.hash = 999
+  t.deepEqual(link.hash, new Buffer('122050ee8231ac5be6b674d35e806db2900dd4048450d29a8598559a9c0d088cc7e3', 'hex'))
+
   t.end()
 })
 
