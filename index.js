@@ -91,27 +91,27 @@ function Node (data, links) {
 
     return pbn
   }
+}
 
-  function fromProtobuf (data) {
-    // extract struct from protobuf
-    var pbn = mdagpb.PBNode.decode(data)
+function fromProtobuf (data) {
+  // extract struct from protobuf
+  var pbn = mdagpb.PBNode.decode(data)
 
-    // extract and sort links
-    var links = []
-    for (var i = 0; i < pbn.Links.length; i++) {
-      var link = pbn.Links[i]
-      var lnk = new Link(link.Name, link.Tsize, link.Hash)
-      links.push(lnk)
-    }
-    stable.inplace(links, linkSort)
+  // extract and sort links
+  var links = []
+  for (var i = 0; i < pbn.Links.length; i++) {
+    var link = pbn.Links[i]
+    var lnk = new Link(link.Name, link.Tsize, link.Hash)
+    links.push(lnk)
+  }
+  stable.inplace(links, linkSort)
 
-    var innerData = defined(pbn.Data, new Buffer(0))
+  var innerData = defined(pbn.Data, new Buffer(0))
 
-    return new Node(innerData, links)
+  return new Node(innerData, links)
 
-    function linkSort (a, b) {
-      return a.name.localeCompare(b.name)
-    }
+  function linkSort (a, b) {
+    return a.name.localeCompare(b.name)
   }
 }
 
