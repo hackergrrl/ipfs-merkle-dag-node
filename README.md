@@ -145,4 +145,4 @@ MIT
 ## related
 
 > [js-ipfs](https://github.com/ipfs/js-ipfs/) - IPFS implementation in
-> JavaScript 
+> JavaScript

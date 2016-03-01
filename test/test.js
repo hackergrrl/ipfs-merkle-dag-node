@@ -97,7 +97,7 @@ test('create nodes with links', function (t) {
   var link2 = {
     name: 'otherPrev',
     size: 60,
-    hash: new Buffer('12202a6afde7895640b9098f8251ffb059d182b0888723ed182b112cfa40ba290f32','hex')
+    hash: new Buffer('12202a6afde7895640b9098f8251ffb059d182b0888723ed182b112cfa40ba290f32', 'hex')
   }
   t.deepEqual(node3.links[0], link1)
   t.deepEqual(node3.links[1], link2)

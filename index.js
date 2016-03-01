@@ -1,12 +1,12 @@
 var protobuf = require('protocol-buffers')
 var stable = require('stable')
 var defined = require('defined')
-var multihashing = require('multihashing') 
+var multihashing = require('multihashing')
 var base58 = require('bs58')
 var multiline = require('multiline')
 
 // TODO(noffle): make this into its own module
-var schema = multiline(function() {/*
+var schema = multiline(function () {/*
   message PBLink {
     optional bytes Hash = 1;
     optional string Name = 2;
@@ -22,7 +22,7 @@ var mdagpb = protobuf(schema)
 
 exports = module.exports = {
   Node: Node,
-  fromProtobuf: fromProtobuf,
+  fromProtobuf: fromProtobuf
 }
 
 function Node (data, links) {
@@ -51,11 +51,11 @@ function Node (data, links) {
     throw new Error('links must be an object of name:node mappings or a list of links')
   }
 
-  defineImmutableProperty(this, 'data',       data)
-  defineImmutableProperty(this, 'encoded',    mdagpb.PBNode.encode(toProtoBuf(this)))
-  defineImmutableProperty(this, 'hash',       multihashing(this.encoded, 'sha2-256'))
-  defineImmutableProperty(this, 'size',       computeSize(this))
-  defineImmutableProperty(this, 'multihash',  base58.encode(this.hash))
+  defineImmutableProperty(this, 'data', data)
+  defineImmutableProperty(this, 'encoded', mdagpb.PBNode.encode(toProtoBuf(this)))
+  defineImmutableProperty(this, 'hash', multihashing(this.encoded, 'sha2-256'))
+  defineImmutableProperty(this, 'size', computeSize(this))
+  defineImmutableProperty(this, 'multihash', base58.encode(this.hash))
 
   this.asLink = function (name) {
     return new Link(name, this.size, this.hash)
@@ -66,7 +66,6 @@ function Node (data, links) {
   function computeSize (node) {
     if (!node.encoded) {
       throw new Error('no value for \'encoded\' -- this should not happen')
-      return 0
     }
     var size = node.encoded.length
     for (var i = 0; i < node.links.length; i++) {
