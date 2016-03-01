@@ -1,8 +1,8 @@
 var test = require('tape')
-var dag = require('../index')
+var DagNode = require('../index')
 
 test('create a node', function (t) {
-  var dagN = new dag.Node(new Buffer('some data'))
+  var dagN = new DagNode(new Buffer('some data'))
   t.assert(Buffer.isBuffer(dagN.data), 'is a buffer')
   t.assert(dagN.data.length, 9)
   t.equal(dagN.size, 11)
@@ -14,7 +14,7 @@ test('create a node', function (t) {
 })
 
 test('node immutability', function (t) {
-  var dagN = new dag.Node(new Buffer('some data'))
+  var dagN = new DagNode(new Buffer('some data'))
 
   dagN.data = 999
   t.notEqual(dagN.data, 999)
@@ -31,7 +31,7 @@ test('node immutability', function (t) {
 })
 
 test('create an empty node', function (t) {
-  var dagN = new dag.Node(new Buffer(0))
+  var dagN = new DagNode(new Buffer(0))
   t.assert(Buffer.isBuffer(dagN.data), 'is a buffer')
   t.equal(dagN.data.length, 0)
   t.equal(dagN.size, 0)
@@ -39,9 +39,9 @@ test('create an empty node', function (t) {
 })
 
 test('re-encode equivalency', function (t) {
-  var dagN = new dag.Node('you\'re all right, kid.')
+  var dagN = new DagNode('you\'re all right, kid.')
 
-  var reencodedNode = dag.fromProtobuf(dagN.encoded)
+  var reencodedNode = DagNode.fromProtobuf(dagN.encoded)
   t.deepEqual(dagN.data, reencodedNode.data)
   t.deepEqual(dagN.encoded, reencodedNode.encoded)
   t.deepEqual(dagN.hash, reencodedNode.hash)
@@ -51,7 +51,7 @@ test('re-encode equivalency', function (t) {
 })
 
 test('link immutability', function (t) {
-  var node1 = new dag.Node('hello')
+  var node1 = new DagNode('hello')
 
   var link = node1.asLink('prev')
 
@@ -66,13 +66,13 @@ test('link immutability', function (t) {
 })
 
 test('create nodes with links', function (t) {
-  var node1 = new dag.Node('hello')
+  var node1 = new DagNode('hello')
   t.equal(node1.multihash, 'QmTnaGEpw4totXN7rhv2jPMXKfL8s65PhhCKL5pwtJfRxn')
   t.deepEqual(node1.data, new Buffer('hello'))
   t.equal(node1.size, 7)
   t.deepEqual(node1.links, [])
 
-  var node2 = new dag.Node('world', [node1.asLink('prev')])
+  var node2 = new DagNode('world', [node1.asLink('prev')])
   t.equal(node2.multihash, 'QmRCETTRRkDQsZqxYgPv8QbCdcxoL8SccXo6YTa8t9UMM3')
   t.deepEqual(node2.data, new Buffer('world'))
   t.equal(node2.size, 60)
@@ -84,7 +84,7 @@ test('create nodes with links', function (t) {
   }
   t.deepEqual(node2.links[0], link)
 
-  var node3 = new dag.Node('!!!', { 'prev': node1, 'otherPrev': node2 })
+  var node3 = new DagNode('!!!', { 'prev': node1, 'otherPrev': node2 })
   t.equal(node3.multihash, 'Qmd6KYy2Rb2wuTHwUFTKg8QqRd1TqSEeD6GULjJuSCtDCA')
   t.deepEqual(node3.data, new Buffer('!!!'))
   t.equal(node3.size, 169)

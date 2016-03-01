@@ -20,10 +20,9 @@ var schema = multiline(function () {/*
 
 var mdagpb = protobuf(schema)
 
-exports = module.exports = {
-  Node: Node,
-  fromProtobuf: fromProtobuf
-}
+module.exports = Node
+
+Node.fromProtobuf = fromProtobuf
 
 function Node (data, links) {
   if (!(this instanceof Node)) return new Node(data, links)

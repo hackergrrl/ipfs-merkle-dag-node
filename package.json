@@ -1,5 +1,5 @@
 {
-  "name": "ipfs-dag",
+  "name": "ipfs-merkle-dag-node",
   "description": "data structures and methods for manipulating IPFS objects",
   "version": "0.0.2",
   "repository": {

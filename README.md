@@ -1,4 +1,4 @@
-# ipfs-dag
+# ipfs-merkle-dag-node
 
 > Create and use [IPFS](https://ipfs.io) [Merkle
 > DAGs](https://github.com/jbenet/random-ideas/issues/20)!
@@ -23,10 +23,10 @@ Let's build a DAG where `node2` points to `node1`, and `node3` points to the
 other two:
 
 ```js
-var dag = require('ipfs-dag')
+var Node = require('ipfs-merkle-dag-node')
 
 // node data can be a string or a Buffer
-var node1 = new dag.Node('hello')
+var node1 = new Node('hello')
 console.log('Multihash', node1.multihash)
 console.log('Data', node1.data)
 console.log('Size', node1.size)
@@ -34,7 +34,7 @@ console.log('Links', node1.links)
 console.log()
 
 // link to other nodes by a list of Links..
-var node2 = new dag.Node('world', [node1.asLink('prev')])
+var node2 = new Node('world', [node1.asLink('prev')])
 console.log('Multihash', node2.multihash)
 console.log('Data', node2.data)
 console.log('Size', node2.size)
@@ -42,7 +42,7 @@ console.log('Links', node2.links)
 console.log()
 
 // ..or link using an object that maps names->Nodes
-var node3 = new dag.Node('!!!', { 'prev': node1, 'otherPrev': node2 })
+var node3 = new Node('!!!', { 'prev': node1, 'otherPrev': node2 })
 console.log('Multihash', node3.multihash)
 console.log('Data', node3.data)
 console.log('Size', node3.size)
@@ -82,10 +82,10 @@ Links [ Link {
 # api
 
 ```js
-var dag = require('ipfs-dag')
+var Node = require('ipfs-merkle-dag-node')
 ```
 
-### var node = new dag.Node(data, links=[])
+### var node = new Node(data, links=[])
 
 Creates a new IPFS Merkle DAG node with `data` contents and links to other DAG
 nodes `links`.
@@ -96,9 +96,9 @@ the latter.
 `links` can either be a list of Links or an object that maps link names
 (strings) to nodes (Nodes):
 
-Using a list: `var node2 = new dag.Node('foo', [node1.asLink('link-name')]`
+Using a list: `var node2 = new Node('foo', [node1.asLink('link-name')]`
 
-Using an object: `var node2 = new dag.Node('foo', { 'link-name': node1 })`
+Using an object: `var node2 = new Node('foo', { 'link-name': node1 })`
 
 If not provided, `links` will be considered an empty list.
 
@@ -125,7 +125,7 @@ Links have the following properties:
 - `size` - the size of the node the link points to, in bytes
 - `hash` - a `Buffer` of the object after it has been SHA2-256 hashed.
 
-### dag.fromProtobuf(data)
+### Node.fromProtobuf(data)
 
 Creates a new DAG node from the binary protobuffer encoding of a node
 (`encoded`, above).
@@ -135,7 +135,7 @@ Creates a new DAG node from the binary protobuffer encoding of a node
 With [`npm`](http://npmjs.org/), run
 
 ```
-npm install ipfs-dag
+npm install ipfs-merkle-dag-node
 ```
 
 ## license
